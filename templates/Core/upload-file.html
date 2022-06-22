@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django File Upload</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+        * {
+            text-align: center;
+            list-style: none;
+        }
+        .wrapper {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 10px;
+            grid-auto-rows: minmax(100px, auto);
+        }
+        .ti{
+            place-items: center;
+            color: rgb(135,133,162);
+            grid-column: 2;
+            grid-column-end: span 3;
+            font-size: 1.5em;
+        }
+        .main {
+            grid-column: 2;
+            grid-row: 2;
+            grid-column-end: span 3;
+            grid-row-end: span 4;
+            background-color: rgb(255,226,226);
+            place-items: center;
+            font-size: 3em;
+            border-radius: 5rem;
+            padding: 8rem;
+            color: rgb(135,133,162);
+
+            outline: none;
+            cursor: pointer;
+
+        }
+        .side{
+            grid-column: 2;
+            grid-column-end: 5;
+            grid-row: 6;
+            align-self: center;
+        }
+        .up{
+            display: none;
+        }
+
+    </style>
+    <script>
+        function onClickUpload() {
+            document.getElementById('bt').click();
+        }
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <div class="ti">
+        <h1>끼 리 끼 리</h1>
+    </div>
+    <label class="main" for="upload">
+        <p><strong>클릭하여 사진을 올려주세요</strong></p>
+    </label>
+</div>
+
+<form action="{% url 'Core:uploadFile' %}" method="POST" enctype="multipart/form-data" class="up">
+    <input type="file" name="uploadedFile" id="upload" onchange="onClickUpload();">
+    {% csrf_token %}
+    <input type="submit" value="Upload" id="bt">
+</form>
+
+<div class="side">
+    <ul>
+        <li>- 이미지는 어디에도 활용 되지 않습니다.</li>
+        </br>
+        <li>- 이미지는 1주일뒤 서버에서 삭제됩니다.</li>
+    </ul>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!-- chat/templates/chat/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>평가 결과</title>
+    <style>
+        * {
+            text-align: center;
+            list-style: none;
+        }
+        .wrapper {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 10px;
+            grid-auto-rows: minmax(100px, auto);
+            place-items: center;
+        }
+        .ti{
+            place-items: center;
+            color: rgb(135,133,162);
+            grid-column: 2;
+            grid-column-end: span 3;
+            grid-row: 1;
+            grid-row-end: span 2;
+            font-size: 1.5em;
+            color: rgb(135,133,162);
+        }
+        .main {
+            grid-column: 2;
+            grid-row: 2;
+            grid-column-end: span 3;
+            grid-row-end: span 4;
+            place-items: center;
+            font-size: 1.8em;
+            border-radius: 5rem;
+            padding: 8rem;
+            color: rgb(135,133,162);
+        }
+        .bt{
+            grid-column: 2;
+            grid-column-end: 5;
+            grid-row: 4;
+            grid-row-end: span 2;
+            align-self: center;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="ti">
+        <h1>끼 리 끼 리</h1>
+    </div>
+    <div class="main">
+        <div class="img"><img alt="평가 이미지" src="{{ uploaded_file_url }}"></div>
+        <p>당신의 얼굴 점수</p>
+        <p>{{ score }} / 5</p>
+    </div>
+    <div class="bt">
+        <input id="room-name-submit" type="button" value="채팅방 입장" onclick='newPage()'>
+    </div>
+</div>
+<script>
+    function newPage()  {
+        window.location.href = 'http://127.0.0.1:8000/chat/' + {{ room_num }}
+    }
+</script>
+</body>
+</html>

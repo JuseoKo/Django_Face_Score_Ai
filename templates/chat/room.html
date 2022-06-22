@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <style>
+        .ti{
+            place-items: center;
+            color: rgb(135,133,162);
+            font-size: 4em;
+            color: rgb(135,133,162);
+        }
+    </style>
+    <meta charset="utf-8"/>
+    <title>채팅방</title>
+    <style>
+        *{
+            align-items: center;
+            text-align: center;
+        }
+        .text{
+            text-align: left !important;
+        }
+        .side{
+            display: inline-block;
+            width: 715px;
+            text-align: left !important;
+        }
+    </style>
+</head>
+<body>
+<h1 class="ti">끼리끼리</h1>
+</br></br>
+<label for="chat-log"></label><textarea class="text" id="chat-log" cols="100" rows="20"></textarea><br>
+<input class="side" id="chat-message-input" type="text" dir="ltr" size="100" >
+<input id="chat-message-submit" type="button" value="입력">
+{{ room_name|json_script:"room-name" }}
+<input id="chat-out" type="button" value="나가기" onclick="backPage()">
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        document.querySelector('#chat-log').value += (data.message + '\n');
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+        messageInputDom.value = '';
+    };
+
+    function backPage()  {
+        window.location.href = 'http://127.0.0.1:8000/'
+    }
+</script>
+</body>
+</html>
