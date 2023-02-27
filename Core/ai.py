@@ -3,9 +3,10 @@ import numpy as np
 import re
 from keras.models import load_model
 
+
 def Ai(img):
     #모델 경로
-    model = load_model('/Users/maria/Desktop/Code/DjangoFileUpload/Core/ai.h5')
+    model = load_model('/Users/maria/Desktop/Code/AI_FACE/Core/ai.h5')
 
     #이미지 경로 , 이미지를 담아둘 배열
     main_img = []
